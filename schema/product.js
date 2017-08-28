@@ -32,3 +32,27 @@ function setApproximateUSDPrice(v) {
         v / (fx()[this.price.currency] || 1);
     return v;
 }
+
+var ProductSchema = mongoose.Schema('Product',product);
+
+var currencySymbols = {
+    'USD':'$',
+    'EUR':'E',
+    'GBP':'P'
+}
+
+
+ProductSchema.virtual('displayPrice')
+    .get(function () {
+        return currencySymbols[this.price.currency] +' '+this.price.amount;
+    })
+    .set('toJSON',{virtuals:true})
+    .set('toObject',{virtuals:true});
+
+modules.exports.model = mongoose.model(ProductSchema);
+
+
+
+
+
+
