@@ -25,7 +25,12 @@ module.exports = function (wagner) {
 
     api.get('/category/parent/:id',wagner.invoke(function (Category) {
         return function (req,res) {
-
+            Category.find({parent:req.params.ids}).
+            sort({id:1}).
+            exec(function (err,categories) {
+                if(error) return res.status(status.INTERNAL_SERVER_ERROR).json({error:error.toString()});
+                res.json({categories:categories});
+            });
         };
     }));
     return api;
